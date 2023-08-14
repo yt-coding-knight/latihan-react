@@ -53,14 +53,16 @@ export default function ListAuthor() {
           </div>
           {page === 1 && (
             <div style={{ textAlign: "center", paddingTop: "1.5rem" }}>
-              <Button onClick={() => setPage((old) => old + 1)}>Load More</Button>
+              <Button onClick={() => setPage((old) => old + 1)} disabled={isLoading}>
+                Load More
+              </Button>
             </div>
           )}
         </>
       )}
       {page >= 2 && page !== authors.totalPage ? (
         <div style={{ textAlign: "center", paddingTop: "1.5rem" }}>
-          <Button onClick={() => setPage((old) => old + 1)}>
+          <Button onClick={() => setPage((old) => old + 1)} disabled={isLoading}>
             {isLoading ? <PulseLoader color="white" size="6px" /> : "Load More"}
           </Button>
         </div>
