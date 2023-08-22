@@ -1,41 +1,15 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { PulseLoader } from "react-spinners"
 import ScaleLoader from "react-spinners/ScaleLoader"
+import useFetch from "../../hooks/useFetch"
 import Button from "../Button"
 import Style from "./listAuthor.module.css"
 
 export default function ListAuthor() {
-  const [authors, setAuthors] = useState({})
-  const [isLoading, setIsLoading] = useState(false)
   const [page, setPage] = useState(1)
+  const url = "https://api.quotable.io/authors?" + new URLSearchParams({ page })
 
-  useEffect(() => {
-    const controller = new AbortController()
-
-    async function getAuthors() {
-      setIsLoading(true)
-      const signal = controller.signal
-      const url = "https://api.quotable.io/authors?" + new URLSearchParams({ page })
-      const res = await fetch(url, { signal })
-      const data = await res.json()
-
-      if (page >= 2) {
-        setAuthors((old) => ({
-          ...data,
-          results: [...old.results, ...data.results],
-        }))
-      } else {
-        setAuthors(data)
-      }
-      setIsLoading(false)
-    }
-
-    getAuthors()
-
-    return () => {
-      controller.abort()
-    }
-  }, [page])
+  const { data: authors, isLoading } = useFetch(url, page)
 
   return (
     <section className={Style.spaceSection}>

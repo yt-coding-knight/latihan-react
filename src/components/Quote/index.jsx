@@ -1,35 +1,14 @@
-import { useEffect, useState } from "react"
 import PuffLoader from "react-spinners/PuffLoader"
+import useFetch from "../../hooks/useFetch"
 import Button from "../Button"
 import Style from "./quote.module.css"
 
 export default function Quote() {
-  const [quote, setQuote] = useState({})
-  const [isLoading, setIsLoading] = useState(false)
+  const url = "https://api.quotable.io/random"
+  const { data: quote, isLoading, setNeedFetching } = useFetch(url)
 
-  async function getQuote(controller) {
-    setIsLoading(true)
-    const signal = controller.signal
-    const res = await fetch("https://api.quotable.io/random", { signal })
-    const data = await res.json()
-
-    setQuote(data)
-    setIsLoading(false)
-  }
-
-  useEffect(() => {
-    const controller = new AbortController()
-
-    getQuote(controller)
-
-    return () => {
-      controller.abort()
-    }
-  }, [])
-
-  function randomQuote() {
-    const controller = new AbortController()
-    getQuote(controller)
+  async function randomQuote() {
+    setNeedFetching(true)
   }
 
   return (
