@@ -7,7 +7,7 @@ export default function Quote() {
   const url = "https://api.quotable.io/random"
   const { data: quote, isLoading, setNeedFetching } = useFetch(url)
 
-  async function randomQuote() {
+  function randomQuote() {
     setNeedFetching(true)
   }
 
