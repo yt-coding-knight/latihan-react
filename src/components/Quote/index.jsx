@@ -5,10 +5,18 @@ import Style from "./quote.module.css"
 
 export default function Quote() {
   const url = "https://api.quotable.io/random"
-  const { data: quote, isLoading, setNeedFetching } = useFetch(url)
+  const { data: quote, isLoading, hasError, setNeedFetching } = useFetch(url)
 
   async function randomQuote() {
     setNeedFetching(true)
+  }
+
+  if (hasError) {
+    return (
+      <div className={Style.container}>
+        <p>gagal menampilkan data. silahkan reload halaman ini</p>
+      </div>
+    )
   }
 
   return (

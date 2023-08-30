@@ -9,7 +9,15 @@ export default function ListAuthor() {
   const [page, setPage] = useState(1)
   const url = "https://api.quotable.io/authors?" + new URLSearchParams({ page })
 
-  const { data: authors, isLoading } = useFetch(url, page)
+  const { data: authors, isLoading, hasError } = useFetch(url, page)
+
+  if (hasError) {
+    return (
+      <div className={Style.spaceSection}>
+        <p>gagal menampilkan data. silahkan reload halaman ini</p>
+      </div>
+    )
+  }
 
   return (
     <section className={Style.spaceSection}>
